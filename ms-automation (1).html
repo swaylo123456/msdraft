@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MS Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0d1414;
+    --white: #edfaf7;
+    --accent: #00C9A7;
+    --accent2: #00F0CC;
+    --gray: #152222;
+    --gray2: #1e3030;
+    --muted: #6aada0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 5%;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #1f1f1f;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+
+  .logo span { color: var(--white); }
+
+  nav ul {
+    list-style: none;
+    display: flex; gap: 2.5rem;
+  }
+
+  nav ul a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  nav ul a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 500 !important;
+    transition: opacity 0.3s !important;
+  }
+
+  .nav-cta:hover { opacity: 0.85; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 0 5%;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,167,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,167,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 80px 80px; }
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 30px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    animation: fadeUp 0.8s 0.1s ease both;
+    position: relative; z-index: 1;
+  }
+
+  h1 .highlight {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-sub {
+    max-width: 540px;
+    margin-top: 2rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #aaa;
+    animation: fadeUp 0.8s 0.2s ease both;
+    position: relative; z-index: 1;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; margin-top: 2.5rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+    position: relative; z-index: 1;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 0.9rem 2.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  .btn-secondary {
+    border: 1px solid #333;
+    color: var(--white);
+    padding: 0.9rem 2.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); background: rgba(0,201,167,0.05); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 5rem;
+    border-top: 1px solid #1f1f1f;
+    padding-top: 2.5rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+    position: relative; z-index: 1;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* MARQUEE */
+  .marquee-bar {
+    background: var(--accent);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 25s linear infinite;
+  }
+
+  .marquee-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 4px;
+    color: var(--black);
+    padding: 0 2rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section { padding: 7rem 5%; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  /* SERVICES */
+  #services { background: var(--black); }
+
+  .services-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+
+  .services-desc {
+    color: #aaa;
+    line-height: 1.8;
+    font-size: 1rem;
+    max-width: 420px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #152222;
+  }
+
+  .service-card {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover { background: var(--gray); }
+
+  .service-card:hover .service-icon { color: var(--accent); }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+
+  .service-card h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .service-card p {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* PROCESS */
+  #process { background: var(--gray); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem; left: 2rem; right: 2rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    z-index: 0;
+  }
+
+  .process-step {
+    position: relative; z-index: 1;
+  }
+
+  .step-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .step-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,201,167,0.3);
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: #0d1414;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .process-step p {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* WHY US */
+  #why { background: var(--black); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .why-visual {
+    background: var(--gray);
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-visual::before {
+    content: 'MS';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12rem;
+    color: rgba(0,201,167,0.06);
+    position: absolute;
+    bottom: -2rem; right: -1rem;
+    letter-spacing: -5px;
+  }
+
+  .benefit-list { list-style: none; }
+
+  .benefit-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #1f1f1f;
+    font-size: 0.95rem;
+    color: #a8d8d0;
+    line-height: 1.6;
+  }
+
+  .benefit-list li:last-child { border-bottom: none; }
+
+  .benefit-check {
+    width: 22px; height: 22px; min-width: 22px;
+    border-radius: 50%;
+    background: rgba(0,201,167,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    color: var(--accent);
+    margin-top: 1px;
+  }
+
+  .why-feature {
+    margin-bottom: 2rem;
+  }
+
+  .why-feature h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .why-feature p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  #testimonials { background: var(--gray); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .testimonial-card {
+    background: var(--black);
+    border: 1px solid #2a2a2a;
+    padding: 2rem;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.2;
+    position: absolute;
+    top: 0.5rem; left: 1.5rem;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: #bbb;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+
+  .author-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .author-name { font-size: 0.88rem; font-weight: 500; }
+  .author-role { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* CTA */
+  #cta {
+    background: var(--accent);
+    padding: 6rem 5%;
+    text-align: center;
+  }
+
+  #cta h2 {
+    color: var(--black);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  #cta p {
+    color: rgba(0,0,0,0.6);
+    margin: 1rem auto 2.5rem;
+    max-width: 500px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .btn-dark {
+    background: var(--black);
+    color: var(--accent);
+    padding: 1rem 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .btn-dark:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid #1e3030;
+    padding: 4rem 5%;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo span { color: var(--white); }
+
+  .footer-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li { margin-bottom: 0.6rem; }
+
+  .footer-col ul a {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid #1e3030;
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem;
+    color: #444;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scroll animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* PORTAL */
+  #portal { background: var(--gray); }
+  .portal-tabs { display: flex; gap: 0; margin-top: 2.5rem; border-bottom: 1px solid #333; }
+  .tab-btn { background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 0.85rem 1.8rem; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; margin-bottom: -1px; }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn:hover { color: var(--white); }
+  .tab-panel { display: none; padding-top: 2.5rem; }
+  .tab-panel.active { display: block; }
+  .portal-form-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 0.75rem; align-items: end; margin-bottom: 0.75rem; }
+  .pf-label { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  .pf-input { width: 100%; background: #0d1a1a; border: 1px solid #1e3535; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; padding: 0.6rem 0.85rem; border-radius: 2px; outline: none; transition: border-color 0.2s; }
+  .pf-input:focus { border-color: var(--accent); }
+  .pf-input::placeholder { color: #444; }
+  .btn-add { background: var(--accent); color: var(--black); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 2px; white-space: nowrap; transition: opacity 0.2s; }
+  .btn-add:hover { opacity: 0.85; }
+  .btn-del { background: none; border: 1px solid #333; cursor: pointer; color: var(--muted); font-size: 0.85rem; padding: 0.35rem 0.7rem; border-radius: 2px; transition: border-color 0.2s, color 0.2s; }
+  .btn-del:hover { border-color: #e24b4a; color: #e24b4a; }
+  .portal-table-wrap { overflow-x: auto; margin-top: 1.5rem; }
+  table.portal-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .portal-table th { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid #2a2a2a; }
+  .portal-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #1e3030; color: #a8d8d0; }
+  .portal-table tr:hover td { background: rgba(0,201,167,0.03); }
+  .portal-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .badge-paid { background: rgba(29,158,117,0.15); color: #1d9e75; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+  .badge-due { background: rgba(186,117,23,0.15); color: #ef9f27; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+  .portal-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+  .sum-card { background: #0d1a1a; border: 1px solid #1e3030; border-radius: 2px; padding: 1.25rem 1.5rem; }
+  .sum-card-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+  .sum-card-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 1px; line-height: 1; }
+  .sum-card-val.accent { color: var(--accent); }
+  .sum-card-val.red { color: #e24b4a; }
+  .sum-card-val.green { color: #1d9e75; }
+  .sum-card-val.blue { color: #00F0CC; }
+  .expense-form-row { display: grid; grid-template-columns: 2fr 1.5fr 1fr auto; gap: 0.75rem; align-items: end; margin-bottom: 0.75rem; }
+  .month-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .month-bar select { background: #0d1a1a; border: 1px solid #1e3535; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; padding: 0.5rem 0.85rem; border-radius: 2px; outline: none; }
+  .month-bar select:focus { border-color: var(--accent); }
+  .month-bar label { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .net-bar { display: flex; align-items: center; gap: 2rem; margin-top: 2rem; background: #0d1a1a; border: 1px solid #1e3030; padding: 1.25rem 1.5rem; border-radius: 2px; }
+  .net-bar-item { flex: 1; }
+  .net-bar-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .net-bar-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; }
+  .net-divider { width: 1px; height: 48px; background: #2a2a2a; }
+
+  @media (max-width: 900px) {
+    .services-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav ul { display: none; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .process-steps::before { display: none; }
+    .portal-form-row { grid-template-columns: 1fr 1fr; }
+    .expense-form-row { grid-template-columns: 1fr 1fr; }
+    .portal-summary { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  #cursor-dot { width:6px;height:6px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.2s; }
+  #cursor-ring { width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s cubic-bezier(.2,.8,.4,1),width 0.2s,height 0.2s,opacity 0.2s; opacity:0.6; }
+  body { cursor: none; }
+  a,button,.service-card,.tab-btn { cursor: none; }
+
+  /* ── PARTICLE CANVAS ── */
+  #particle-canvas { opacity: 0.55; }
+
+  /* ── TYPEWRITER CURSOR ── */
+  #typewriter-word::after { content:'|'; display:inline-block; color:var(--accent); animation: twBlink 0.75s step-end infinite; margin-left:2px; }
+  @keyframes twBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── SCANLINE REVEAL ── */
+  .scan-reveal { position:relative; overflow:hidden; }
+  .scan-reveal::before { content:''; position:absolute; top:-3px; left:0; right:0; height:3px; background:var(--accent); z-index:10; transform:translateY(-100%); opacity:0; transition:none; }
+  .scan-reveal.scanning::before { animation: scanDown 0.7s ease forwards; }
+  .scan-reveal .scan-content { opacity:0; transform:translateY(14px); transition:opacity 0.5s 0.35s ease, transform 0.5s 0.35s ease; }
+  .scan-reveal.scanning .scan-content { opacity:1; transform:translateY(0); }
+  @keyframes scanDown { 0%{transform:translateY(-3px);opacity:1} 100%{transform:translateY(calc(100% + 300px));opacity:0.3} }
+
+  /* ── STAGGER CARDS ── */
+  .stagger-child { opacity:0; transform:translateY(28px) scale(0.97); transition:opacity 0.5s ease, transform 0.5s ease; }
+  .stagger-child.stagger-in { opacity:1; transform:translateY(0) scale(1); }
+
+  /* ── MAGNETIC HOVER ── */
+  .magnetic { transition: transform 0.3s cubic-bezier(0.2,0.8,0.4,1); }
+
+  /* ── SERVICE CARD TILT ── */
+  .service-card { transform-style: preserve-3d; transition: transform 0.4s ease, background 0.3s; }
+
+  /* ── STAT COUNT UP ── */
+  .stat-num { transition: color 0.3s; }
+
+  /* ── GLITCH LOGO ── */
+  .logo { position:relative; }
+  .logo:hover { animation: glitch 0.4s steps(2) 1; }
+  @keyframes glitch {
+    0%   { text-shadow: 2px 0 #00F0CC, -2px 0 #00C9A7; }
+    25%  { text-shadow: -2px 0 #00F0CC,  2px 0 #00C9A7; clip-path: inset(20% 0 60% 0); }
+    50%  { text-shadow:  2px 0 #00F0CC, -2px 0 #00C9A7; clip-path: inset(60% 0 10% 0); }
+    75%  { text-shadow: -2px 0 #00F0CC,  2px 0 #00C9A7; clip-path: inset(40% 0 30% 0); }
+    100% { text-shadow: none; clip-path: none; }
+  }
+
+  /* ── NAV LINK UNDERLINE SLIDE ── */
+  nav ul a:not(.nav-cta) { position:relative; }
+  nav ul a:not(.nav-cta)::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--accent); transition:width 0.3s ease; }
+  nav ul a:not(.nav-cta):hover::after { width:100%; }
+
+  /* ── SCROLL PROGRESS BAR ── */
+  #scroll-bar { position:fixed; top:0; left:0; height:2px; background:var(--accent); z-index:9999; width:0%; transition:width 0.1s linear; }
+
+  /* ── SECTION LABEL LINE DRAW ── */
+  .section-label { overflow:hidden; }
+  .section-label::before { transition: width 0.8s 0.2s ease; }
+
+  /* ── BUTTON RIPPLE ── */
+  .btn-primary,.btn-secondary,.btn-dark,.btn-add { position:relative; overflow:hidden; }
+  .ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,0.2); transform:scale(0); animation:rippleAnim 0.5s linear; pointer-events:none; }
+  @keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
+
+  /* ── HERO TEXT SPLIT REVEAL ── */
+  .hero h1 .line { display:block; overflow:hidden; }
+  .hero h1 .line span { display:block; animation: slideUpLine 0.8s cubic-bezier(0.16,1,0.3,1) both; }
+  .hero h1 .line:nth-child(2) span { animation-delay: 0.12s; }
+
+  @keyframes slideUpLine { from{transform:translateY(110%);opacity:0} to{transform:translateY(0);opacity:1} }
+
+  /* ── FLOATING ACCENT SHAPES ── */
+  .hero-shape { position:absolute; border-radius:50%; pointer-events:none; z-index:0; animation: floatShape 6s ease-in-out infinite; }
+  @keyframes floatShape { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(180deg)} }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="scroll-bar"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <div class="logo">MS<span> Automation</span></div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#portal">Portal</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <canvas id="particle-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+  <div class="hero-tag">Industrial &amp; Business Automation</div>
+  <h1>
+    Future Is
+    <span class="highlight" id="typewriter-word">Automated.</span>
+  </h1>
+  <p class="hero-sub">MS Automation delivers end-to-end automation solutions that cut costs, eliminate errors, and transform the way your business operates.</p>
+  <div class="hero-actions">
+    <a href="#cta" class="btn-primary magnetic">Start a Project</a>
+    <a href="#services" class="btn-secondary magnetic">Our Services</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div>
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
+    <div>
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div>
+      <div class="stat-num">40%</div>
+      <div class="stat-label">Avg Cost Reduction</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span>PLC Programming</span><span>•</span>
+    <span>Industrial Robotics</span><span>•</span>
+    <span>Process Automation</span><span>•</span>
+    <span>SCADA Systems</span><span>•</span>
+    <span>IoT Integration</span><span>•</span>
+    <span>HMI Development</span><span>•</span>
+    <span>Control Systems</span><span>•</span>
+    <span>PLC Programming</span><span>•</span>
+    <span>Industrial Robotics</span><span>•</span>
+    <span>Process Automation</span><span>•</span>
+    <span>SCADA Systems</span><span>•</span>
+    <span>IoT Integration</span><span>•</span>
+    <span>HMI Development</span><span>•</span>
+    <span>Control Systems</span><span>•</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="scan-reveal">
+<div class="scan-content">
+  <div class="services-intro">
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2>AUTOMATION<br>SOLUTIONS</h2>
+    </div>
+    <p class="services-desc">From concept to commissioning, we engineer intelligent automation systems tailored to your operational goals — maximizing throughput, precision, and reliability.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">01</div>
+      <div class="service-icon">⚙</div>
+      <h3>PLC & Control Systems</h3>
+      <p>Design, programming, and commissioning of PLC-based control systems for manufacturing and industrial processes.</p>
+    </div>
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">02</div>
+      <div class="service-icon">🤖</div>
+      <h3>Robotic Automation</h3>
+      <p>Integration of industrial robots for assembly, welding, pick-and-place, and material handling operations.</p>
+    </div>
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">03</div>
+      <div class="service-icon">📊</div>
+      <h3>SCADA & HMI</h3>
+      <p>Custom SCADA and HMI solutions providing real-time visibility and intuitive operator control over your processes.</p>
+    </div>
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">04</div>
+      <div class="service-icon">🌐</div>
+      <h3>IoT & Industry 4.0</h3>
+      <p>Smart factory connectivity, remote monitoring, predictive maintenance, and data analytics platforms.</p>
+    </div>
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">05</div>
+      <div class="service-icon">🔧</div>
+      <h3>Panel Design & Build</h3>
+      <p>Complete electrical panel fabrication, wiring, and testing to the highest safety and quality standards.</p>
+    </div>
+    <div class="service-card stagger-child magnetic">
+      <div class="service-num">06</div>
+      <div class="service-icon">📋</div>
+      <h3>Maintenance & Support</h3>
+      <p>Ongoing AMC contracts, emergency breakdown support, and system upgrades to keep operations running.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="scan-reveal">
+<div class="scan-content">
+  <div class="section-label">How It Works</div>
+  <h2>OUR PROCESS</h2>
+  <div class="process-steps reveal">
+    <div class="process-step stagger-child">
+      <div class="step-dot"></div>
+      <div class="step-num">01</div>
+      <h3>Discovery & Audit</h3>
+      <p>We assess your existing processes, pain points, and goals to define the ideal automation strategy.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-dot"></div>
+      <div class="step-num">02</div>
+      <h3>Design & Engineer</h3>
+      <p>Our engineers develop a detailed technical design — hardware specs, software architecture, and timelines.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-dot"></div>
+      <div class="step-num">03</div>
+      <h3>Build & Integrate</h3>
+      <p>Fabrication, programming, and full system integration on-site with minimal disruption to operations.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-dot"></div>
+      <div class="step-num">04</div>
+      <h3>Test & Handover</h3>
+      <p>Rigorous UAT testing, team training, documentation, and ongoing support to ensure long-term success.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- WHY US -->
+<section id="why" class="scan-reveal">
+<div class="scan-content">
+  <div class="why-grid">
+    <div>
+      <div class="section-label">Why MS Automation</div>
+      <h2>BUILT ON<br>EXPERTISE</h2>
+      <div class="why-feature stagger-child" style="margin-top: 2rem;">
+        <h3>End-to-End Ownership</h3>
+        <p>We handle everything from design to delivery — one partner, full accountability.</p>
+      </div>
+      <div class="why-feature stagger-child">
+        <h3>Industry Agnostic</h3>
+        <p>Food &amp; beverage, pharma, textiles, automotive, packaging — we speak your language.</p>
+      </div>
+      <div class="why-feature stagger-child">
+        <h3>Fast Deployment</h3>
+        <p>Lean processes and a dedicated team mean your project goes live on schedule, every time.</p>
+      </div>
+    </div>
+    <div class="why-visual reveal">
+      <ul class="benefit-list">
+        <li>
+          <div class="benefit-check">✓</div>
+          Certified automation engineers with 12+ years field experience
+        </li>
+        <li>
+          <div class="benefit-check">✓</div>
+          Partnerships with Siemens, Allen-Bradley, Mitsubishi &amp; more
+        </li>
+        <li>
+          <div class="benefit-check">✓</div>
+          ROI-focused designs that pay for themselves within 18 months
+        </li>
+        <li>
+          <div class="benefit-check">✓</div>
+          24/7 remote monitoring and rapid on-site response
+        </li>
+        <li>
+          <div class="benefit-check">✓</div>
+          Transparent pricing with no hidden costs
+        </li>
+        <li>
+          <div class="benefit-check">✓</div>
+          Local team based in Gujarat — we understand your industry
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="scan-reveal">
+<div class="scan-content">
+  <div class="section-label">Client Voices</div>
+  <h2>WHAT CLIENTS SAY</h2>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card stagger-child magnetic">
+      <p class="testimonial-text">MS Automation transformed our production line. Downtime dropped by 60% in the first three months. Their team was professional, on-time, and the quality of work is outstanding.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">RK</div>
+        <div>
+          <div class="author-name">Rajesh Kothari</div>
+          <div class="author-role">Plant Manager, Kothari Textiles</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card stagger-child magnetic">
+      <p class="testimonial-text">The SCADA system they built gives us real-time visibility we never had before. We caught a major equipment fault before it became a costly failure. Highly recommended.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">PM</div>
+        <div>
+          <div class="author-name">Priya Mehta</div>
+          <div class="author-role">Operations Head, Mehta Pharma</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card stagger-child magnetic">
+      <p class="testimonial-text">From the first meeting, MS Automation understood exactly what we needed. The robotic cell they installed improved our throughput by 45%. A game changer for our facility.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AS</div>
+        <div>
+          <div class="author-name">Amit Shah</div>
+          <div class="author-role">Director, Shah Engineering Works</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- PORTAL -->
+<section id="portal" class="scan-reveal">
+<div class="scan-content">
+  <div class="section-label">Internal Tools</div>
+  <h2>BUSINESS PORTAL</h2>
+
+  <div class="portal-tabs">
+    <button class="tab-btn active" onclick="switchTab('salary')">Worker Salaries</button>
+    <button class="tab-btn" onclick="switchTab('expense')">Monthly Expenses</button>
+    <button class="tab-btn" onclick="switchTab('summary')">Summary &amp; Calculator</button>
+  </div>
+
+  <!-- SALARY TAB -->
+  <div class="tab-panel active" id="tab-salary">
+    <div class="month-bar">
+      <label>Month</label>
+      <select id="sal-month" onchange="renderSalaryTable()">
+        <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+      </select>
+      <select id="sal-year" onchange="renderSalaryTable()">
+        <option>2024</option><option selected>2025</option><option>2026</option>
+      </select>
+    </div>
+    <div class="portal-form-row">
+      <div><div class="pf-label">Worker Name</div><input class="pf-input" id="sal-name" placeholder="e.g. Ravi Patel" /></div>
+      <div><div class="pf-label">Role</div><input class="pf-input" id="sal-role" placeholder="e.g. Technician" /></div>
+      <div><div class="pf-label">Salary (&#8377;)</div><input class="pf-input" id="sal-amount" type="number" placeholder="25000" /></div>
+      <div><div class="pf-label">&nbsp;</div><button class="btn-add" onclick="addWorker()">+ Add</button></div>
+    </div>
+    <div class="portal-table-wrap">
+      <table class="portal-table">
+        <thead><tr><th>#</th><th>Worker Name</th><th>Role</th><th class="num">Salary (&#8377;)</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="salary-body"></tbody>
+      </table>
+    </div>
+    <div class="portal-summary" style="grid-template-columns:repeat(3,1fr);margin-top:1.5rem;">
+      <div class="sum-card"><div class="sum-card-label">Total Workers</div><div class="sum-card-val accent" id="sal-count">0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Total Salary Payout</div><div class="sum-card-val red" id="sal-total">&#8377;0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Avg Per Worker</div><div class="sum-card-val blue" id="sal-avg">&#8377;0</div></div>
+    </div>
+  </div>
+
+  <!-- EXPENSE TAB -->
+  <div class="tab-panel" id="tab-expense">
+    <div class="month-bar">
+      <label>Month</label>
+      <select id="exp-month" onchange="renderExpenseTable()">
+        <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+      </select>
+      <select id="exp-year" onchange="renderExpenseTable()">
+        <option>2024</option><option selected>2025</option><option>2026</option>
+      </select>
+    </div>
+    <div class="expense-form-row">
+      <div><div class="pf-label">Expense Description</div><input class="pf-input" id="exp-desc" placeholder="e.g. Raw Materials" /></div>
+      <div><div class="pf-label">Category</div><select class="pf-input" id="exp-cat"><option>Materials</option><option>Utilities</option><option>Transport</option><option>Equipment</option><option>Office</option><option>Maintenance</option><option>Other</option></select></div>
+      <div><div class="pf-label">Amount (&#8377;)</div><input class="pf-input" id="exp-amount" type="number" placeholder="5000" /></div>
+      <div><div class="pf-label">&nbsp;</div><button class="btn-add" onclick="addExpense()">+ Add</button></div>
+    </div>
+    <div class="portal-table-wrap">
+      <table class="portal-table">
+        <thead><tr><th>#</th><th>Description</th><th>Category</th><th class="num">Amount (&#8377;)</th><th>Action</th></tr></thead>
+        <tbody id="expense-body"></tbody>
+      </table>
+    </div>
+    <div class="portal-summary" style="grid-template-columns:repeat(3,1fr);margin-top:1.5rem;">
+      <div class="sum-card"><div class="sum-card-label">Total Entries</div><div class="sum-card-val accent" id="exp-count">0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Total Expenses</div><div class="sum-card-val red" id="exp-total">&#8377;0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Largest Expense</div><div class="sum-card-val blue" id="exp-max">&#8377;0</div></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TAB -->
+  <div class="tab-panel" id="tab-summary">
+    <div class="month-bar">
+      <label>Month</label>
+      <select id="sum-month" onchange="renderSummary()">
+        <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+      </select>
+      <select id="sum-year" onchange="renderSummary()">
+        <option>2024</option><option selected>2025</option><option>2026</option>
+      </select>
+    </div>
+    <div class="portal-summary">
+      <div class="sum-card"><div class="sum-card-label">Total Salary</div><div class="sum-card-val red" id="sum-salary">&#8377;0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Total Expenses</div><div class="sum-card-val red" id="sum-expense">&#8377;0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Total Outflow</div><div class="sum-card-val accent" id="sum-total">&#8377;0</div></div>
+      <div class="sum-card"><div class="sum-card-label">Workers This Month</div><div class="sum-card-val blue" id="sum-workers">0</div></div>
+    </div>
+    <div style="margin-top:2.5rem;">
+      <div class="section-label" style="margin-bottom:1rem;">Quick Calculator</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+        <div><div class="pf-label">Expected Revenue (&#8377;)</div><input class="pf-input" id="calc-revenue" type="number" placeholder="500000" oninput="calcProfit()" /></div>
+        <div><div class="pf-label">Extra Costs (&#8377;)</div><input class="pf-input" id="calc-extra" type="number" placeholder="10000" oninput="calcProfit()" /></div>
+        <div><div class="pf-label">Tax Rate (%)</div><input class="pf-input" id="calc-tax" type="number" placeholder="18" oninput="calcProfit()" /></div>
+      </div>
+      <div class="net-bar" style="margin-top:1.25rem;">
+        <div class="net-bar-item"><div class="net-bar-label">Revenue</div><div class="net-bar-val" style="color:var(--accent)" id="calc-out-rev">&#8377;0</div></div>
+        <div class="net-divider"></div>
+        <div class="net-bar-item"><div class="net-bar-label">Total Costs</div><div class="net-bar-val" style="color:#e24b4a" id="calc-out-cost">&#8377;0</div></div>
+        <div class="net-divider"></div>
+        <div class="net-bar-item"><div class="net-bar-label">Tax Amount</div><div class="net-bar-val" style="color:#ef9f27" id="calc-out-tax">&#8377;0</div></div>
+        <div class="net-divider"></div>
+        <div class="net-bar-item"><div class="net-bar-label">Net Profit / Loss</div><div class="net-bar-val" id="calc-out-profit">&#8377;0</div></div>
+      </div>
+    </div>
+    <div class="portal-table-wrap" style="margin-top:2rem;">
+      <table class="portal-table">
+        <thead><tr><th>Category</th><th class="num">Amount (&#8377;)</th><th class="num">% of Total Cost</th></tr></thead>
+        <tbody id="breakdown-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- CTA -->
+<section id="cta">
+  <h2>LET'S AUTOMATE<br>YOUR FUTURE</h2>
+  <p>Tell us about your project and get a free consultation from our engineering team.</p>
+  <a href="mailto:info@msautomation.in" class="btn-dark magnetic">Get Free Consultation</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">MS<span> Automation</span></div>
+      <p class="footer-desc">Engineering intelligent automation solutions that drive efficiency, reliability, and growth for industries across India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">PLC Systems</a></li>
+        <li><a href="#">Robotics</a></li>
+        <li><a href="#">SCADA & HMI</a></li>
+        <li><a href="#">IoT Solutions</a></li>
+        <li><a href="#">Panel Building</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Rajkot, Gujarat</a></li>
+        <li><a href="#">info@msautomation.in</a></li>
+        <li><a href="#">+91 98765 43210</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 MS Automation. All rights reserved.</span>
+    <span>Made in Gujarat 🇮🇳</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script>
+  // --- Portal Data Store ---
+  const workers = [];
+  const expenses = [];
+
+  function fmt(n) { return '&#8377;' + Math.round(n).toLocaleString('en-IN'); }
+
+  function getKey(month, year) { return month + '-' + year; }
+
+  // --- TAB SWITCH ---
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+      b.classList.toggle('active', ['salary','expense','summary'][i] === name);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    if (name === 'summary') renderSummary();
+  }
+
+  // --- SALARY ---
+  function addWorker() {
+    const name = document.getElementById('sal-name').value.trim();
+    const role = document.getElementById('sal-role').value.trim();
+    const amt  = parseFloat(document.getElementById('sal-amount').value);
+    const month = document.getElementById('sal-month').value;
+    const year  = document.getElementById('sal-year').value;
+    if (!name || !amt) return alert('Please enter worker name and salary.');
+    workers.push({ id: Date.now(), name, role: role || 'Staff', amount: amt, month, year, paid: false });
+    document.getElementById('sal-name').value = '';
+    document.getElementById('sal-role').value = '';
+    document.getElementById('sal-amount').value = '';
+    renderSalaryTable();
+  }
+
+  function togglePaid(id) {
+    const w = workers.find(x => x.id === id);
+    if (w) w.paid = !w.paid;
+    renderSalaryTable();
+  }
+
+  function deleteWorker(id) {
+    const idx = workers.findIndex(x => x.id === id);
+    if (idx > -1) workers.splice(idx, 1);
+    renderSalaryTable();
+  }
+
+  function renderSalaryTable() {
+    const month = document.getElementById('sal-month').value;
+    const year  = document.getElementById('sal-year').value;
+    const filtered = workers.filter(w => w.month === month && w.year === year);
+    const tbody = document.getElementById('salary-body');
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#444;padding:2rem;">No workers added for this month.</td></tr>';
+    } else {
+      tbody.innerHTML = filtered.map((w,i) => `
+        <tr>
+          <td style="color:#555">${i+1}</td>
+          <td style="font-weight:500">${w.name}</td>
+          <td style="color:#888">${w.role}</td>
+          <td class="num" style="color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px">${fmt(w.amount)}</td>
+          <td><span onclick="togglePaid(${w.id})" style="cursor:pointer" class="${w.paid ? 'badge-paid' : 'badge-due'}">${w.paid ? 'Paid' : 'Due'}</span></td>
+          <td><button class="btn-del" onclick="deleteWorker(${w.id})">Remove</button></td>
+        </tr>
+      `).join('');
+    }
+    const total = filtered.reduce((s,w) => s + w.amount, 0);
+    const avg   = filtered.length ? total / filtered.length : 0;
+    document.getElementById('sal-count').textContent = filtered.length;
+    document.getElementById('sal-total').innerHTML = fmt(total);
+    document.getElementById('sal-avg').innerHTML   = fmt(avg);
+  }
+
+  // --- EXPENSE ---
+  function addExpense() {
+    const desc  = document.getElementById('exp-desc').value.trim();
+    const cat   = document.getElementById('exp-cat').value;
+    const amt   = parseFloat(document.getElementById('exp-amount').value);
+    const month = document.getElementById('exp-month').value;
+    const year  = document.getElementById('exp-year').value;
+    if (!desc || !amt) return alert('Please enter description and amount.');
+    expenses.push({ id: Date.now(), desc, cat, amount: amt, month, year });
+    document.getElementById('exp-desc').value   = '';
+    document.getElementById('exp-amount').value = '';
+    renderExpenseTable();
+  }
+
+  function deleteExpense(id) {
+    const idx = expenses.findIndex(x => x.id === id);
+    if (idx > -1) expenses.splice(idx, 1);
+    renderExpenseTable();
+  }
+
+  function renderExpenseTable() {
+    const month = document.getElementById('exp-month').value;
+    const year  = document.getElementById('exp-year').value;
+    const filtered = expenses.filter(e => e.month === month && e.year === year);
+    const tbody = document.getElementById('expense-body');
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#444;padding:2rem;">No expenses added for this month.</td></tr>';
+    } else {
+      tbody.innerHTML = filtered.map((e,i) => `
+        <tr>
+          <td style="color:#555">${i+1}</td>
+          <td style="font-weight:500">${e.desc}</td>
+          <td><span style="background:#222;color:#aaa;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px">${e.cat}</span></td>
+          <td class="num" style="color:#e24b4a;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px">${fmt(e.amount)}</td>
+          <td><button class="btn-del" onclick="deleteExpense(${e.id})">Remove</button></td>
+        </tr>
+      `).join('');
+    }
+    const total = filtered.reduce((s,e) => s + e.amount, 0);
+    const max   = filtered.length ? Math.max(...filtered.map(e => e.amount)) : 0;
+    document.getElementById('exp-count').textContent = filtered.length;
+    document.getElementById('exp-total').innerHTML = fmt(total);
+    document.getElementById('exp-max').innerHTML   = fmt(max);
+  }
+
+  // --- SUMMARY ---
+  function renderSummary() {
+    const month = document.getElementById('sum-month').value;
+    const year  = document.getElementById('sum-year').value;
+    const fw = workers.filter(w => w.month === month && w.year === year);
+    const fe = expenses.filter(e => e.month === month && e.year === year);
+    const salTotal = fw.reduce((s,w) => s + w.amount, 0);
+    const expTotal = fe.reduce((s,e) => s + e.amount, 0);
+    const total    = salTotal + expTotal;
+    document.getElementById('sum-salary').innerHTML  = fmt(salTotal);
+    document.getElementById('sum-expense').innerHTML = fmt(expTotal);
+    document.getElementById('sum-total').innerHTML   = fmt(total);
+    document.getElementById('sum-workers').textContent = fw.length;
+
+    // Breakdown by category
+    const cats = {};
+    if (salTotal > 0) cats['Worker Salaries'] = salTotal;
+    fe.forEach(e => { cats[e.cat] = (cats[e.cat] || 0) + e.amount; });
+    const tbody = document.getElementById('breakdown-body');
+    if (total === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#444;padding:2rem;">No data for this month yet.</td></tr>';
+    } else {
+      tbody.innerHTML = Object.entries(cats).map(([k,v]) => `
+        <tr>
+          <td style="font-weight:500">${k}</td>
+          <td class="num" style="color:var(--accent)">${fmt(v)}</td>
+          <td class="num" style="color:#888">${((v/total)*100).toFixed(1)}%</td>
+        </tr>
+      `).join('') + `<tr style="border-top:1px solid #333"><td style="font-weight:500;color:var(--white)">TOTAL</td><td class="num" style="color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:1.1rem">${fmt(total)}</td><td class="num" style="color:#888">100%</td></tr>`;
+    }
+    calcProfit();
+  }
+
+  // --- CALCULATOR ---
+  function calcProfit() {
+    const month = document.getElementById('sum-month') ? document.getElementById('sum-month').value : '';
+    const year  = document.getElementById('sum-year')  ? document.getElementById('sum-year').value  : '';
+    const fw = workers.filter(w => w.month === month && w.year === year);
+    const fe = expenses.filter(e => e.month === month && e.year === year);
+    const salTotal = fw.reduce((s,w) => s + w.amount, 0);
+    const expTotal = fe.reduce((s,e) => s + e.amount, 0);
+
+    const revenue = parseFloat(document.getElementById('calc-revenue').value) || 0;
+    const extra   = parseFloat(document.getElementById('calc-extra').value)   || 0;
+    const taxRate = parseFloat(document.getElementById('calc-tax').value)     || 0;
+    const totalCost = salTotal + expTotal + extra;
+    const taxable   = Math.max(revenue - totalCost, 0);
+    const tax       = (taxable * taxRate) / 100;
+    const profit    = revenue - totalCost - tax;
+
+    document.getElementById('calc-out-rev').innerHTML  = fmt(revenue);
+    document.getElementById('calc-out-cost').innerHTML = fmt(totalCost);
+    document.getElementById('calc-out-tax').innerHTML  = fmt(tax);
+    const profitEl = document.getElementById('calc-out-profit');
+    profitEl.innerHTML  = fmt(profit);
+    profitEl.style.color = profit >= 0 ? '#1d9e75' : '#e24b4a';
+  }
+
+  // Init
+  renderSalaryTable();
+  renderExpenseTable();
+</script>
+
+
+<script>
+/* ═══════════════════════════════════════
+   MS AUTOMATION — HIGH ANIMATIONS ENGINE
+═══════════════════════════════════════ */
+
+/* 1. CUSTOM CURSOR */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,button,.service-card,.tab-btn,.btn-add,.magnetic').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='1'; dot.style.transform='translate(-50%,-50%) scale(0)'; });
+  el.addEventListener('mouseleave',()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='0.6'; dot.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+/* 2. SCROLL PROGRESS BAR */
+const scrollBar = document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const pct = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  scrollBar.style.width = Math.min(pct,100)+'%';
+});
+
+/* 3. PARTICLE NETWORK ON HERO */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; }
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+let mouse={x:-999,y:-999};
+canvas.parentElement.addEventListener('mousemove',e=>{
+  const r=canvas.getBoundingClientRect();
+  mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
+});
+canvas.parentElement.addEventListener('mouseleave',()=>{ mouse.x=-999; mouse.y=-999; });
+const PCNT = 55;
+const particles = Array.from({length:PCNT},()=>({
+  x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
+  vx:(Math.random()-0.5)*0.45, vy:(Math.random()-0.5)*0.45,
+  r:Math.random()*2+1
+}));
+function drawNet(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>canvas.width) p.vx*=-1;
+    if(p.y<0||p.y>canvas.height) p.vy*=-1;
+    const dm=Math.hypot(p.x-mouse.x,p.y-mouse.y);
+    if(dm<120){ p.x+=(p.x-mouse.x)*0.015; p.y+=(p.y-mouse.y)*0.015; }
+  });
+  particles.forEach((a,i)=>{
+    particles.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<110){
+        ctx.strokeStyle=`rgba(0,201,167,${(1-d/110)*0.35})`;
+        ctx.lineWidth=0.8;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+    });
+    ctx.fillStyle='rgba(0,201,167,0.7)';
+    ctx.beginPath(); ctx.arc(a.x,a.y,a.r,0,Math.PI*2); ctx.fill();
+  });
+  requestAnimationFrame(drawNet);
+}
+drawNet();
+
+/* 4. TYPEWRITER CYCLING TEXT */
+const twEl = document.getElementById('typewriter-word');
+const words = ['Automated.','Efficient.','Precise.','Intelligent.','Unstoppable.'];
+let wi=0,ci=words[0].length,deleting=true;
+function typeStep(){
+  const w=words[wi];
+  if(deleting){ twEl.textContent=w.slice(0,--ci); if(ci===0){deleting=false;wi=(wi+1)%words.length;setTimeout(typeStep,400);return;} }
+  else{ twEl.textContent=w.slice(0,++ci); if(ci===w.length){deleting=true;setTimeout(typeStep,1600);return;} }
+  setTimeout(typeStep,deleting?40:75);
+}
+setTimeout(typeStep,2000);
+
+/* 5. COUNT-UP STATS */
+function countUp(el,target,suffix,dur){
+  let start=0,step=target/60;
+  const t=setInterval(()=>{
+    start=Math.min(start+step,target);
+    el.textContent=Math.round(start)+(suffix||'');
+    if(start>=target) clearInterval(t);
+  },dur/60);
+}
+const statsObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const nums=e.target.querySelectorAll('.stat-num');
+      const data=[{v:200,s:'+'},{v:98,s:'%'},{v:12,s:'+'},{v:40,s:'%'}];
+      nums.forEach((n,i)=>{ if(data[i]) countUp(n,data[i].v,data[i].s,1400); });
+      statsObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+const statsEl=document.querySelector('.hero-stats');
+if(statsEl) statsObs.observe(statsEl);
+
+/* 6. SCANLINE SECTION REVEAL */
+const scanObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !e.target.classList.contains('scanned')){
+      e.target.classList.add('scanning','scanned');
+      scanObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.scan-reveal').forEach(el=>scanObs.observe(el));
+
+/* 7. STAGGER CARD REVEAL */
+const staggerObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const children=e.target.querySelectorAll('.stagger-child');
+      children.forEach((c,i)=>{
+        setTimeout(()=>c.classList.add('stagger-in'),i*90);
+      });
+      staggerObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.services-grid,.process-steps,.testimonials-grid,.why-visual,.benefit-list').forEach(el=>staggerObs.observe(el));
+
+/* 8. MAGNETIC HOVER ON BUTTONS & CARDS */
+document.querySelectorAll('.magnetic').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=(e.clientX-cx)*0.18, dy=(e.clientY-cy)*0.18;
+    el.style.transform=`translate(${dx}px,${dy}px)`;
+  });
+  el.addEventListener('mouseleave',()=>{ el.style.transform='translate(0,0)'; });
+});
+
+/* 9. 3D TILT ON SERVICE CARDS */
+document.querySelectorAll('.service-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-0.5)*18;
+    const y=((e.clientY-r.top)/r.height-0.5)*-18;
+    card.style.transform=`perspective(600px) rotateX(${y}deg) rotateY(${x}deg) translateZ(8px)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(600px) rotateX(0) rotateY(0) translateZ(0)'; });
+});
+
+/* 10. BUTTON RIPPLE EFFECT */
+document.querySelectorAll('.btn-primary,.btn-secondary,.btn-dark,.btn-add').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const r=btn.getBoundingClientRect();
+    const size=Math.max(r.width,r.height)*2;
+    const ripple=document.createElement('span');
+    ripple.className='ripple';
+    ripple.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
+    btn.appendChild(ripple);
+    setTimeout(()=>ripple.remove(),500);
+  });
+});
+
+/* 11. FLOATING ACCENT SHAPES IN HERO */
+const hero=document.querySelector('.hero');
+if(hero){
+  [[60,15,'top:15%;right:8%',4],[40,8,'top:65%;right:20%',6],[25,12,'top:40%;left:2%',8]].forEach(([s,op,pos,d])=>{
+    const sh=document.createElement('div');
+    sh.className='hero-shape';
+    sh.style.cssText=`width:${s}px;height:${s}px;border:1.5px solid rgba(0,201,167,0.${op});${pos};animation-duration:${d}s;`;
+    hero.appendChild(sh);
+  });
+}
+
+/* 12. CIRCUIT TRACE ON SERVICES BG */
+const svcSection=document.getElementById('services');
+if(svcSection){
+  const cc=document.createElement('canvas');
+  cc.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.18;z-index:0;';
+  svcSection.style.position='relative';
+  svcSection.insertBefore(cc,svcSection.firstChild);
+  const cx2=cc.getContext('2d');
+  function resizeCC(){ cc.width=svcSection.offsetWidth; cc.height=svcSection.offsetHeight; }
+  resizeCC();
+  window.addEventListener('resize',resizeCC);
+  const G=40, traces2=[];
+  function spawnTrace2(){
+    const cols=Math.floor(cc.width/G), rows=Math.floor(cc.height/G);
+    const sx=(Math.floor(Math.random()*cols))*G+G/2;
+    const sy=(Math.floor(Math.random()*rows))*G+G/2;
+    const dirs=[[G,0],[-G,0],[0,G],[0,-G]];
+    const segs=[];
+    let cx3=sx,cy3=sy;
+    const len=3+Math.floor(Math.random()*6);
+    for(let i=0;i<len;i++){
+      const d=dirs[Math.floor(Math.random()*dirs.length)];
+      const nx=cx3+d[0], ny=cy3+d[1];
+      if(nx>=0&&nx<=cc.width&&ny>=0&&ny<=cc.height){ segs.push({x1:cx3,y1:cy3,x2:nx,y2:ny}); cx3=nx; cy3=ny; }
+    }
+    if(segs.length) traces2.push({segs,prog:0,speed:0.015+Math.random()*0.02,alpha:1});
+  }
+  setInterval(spawnTrace2,400);
+  function drawCircuit(){
+    cx2.clearRect(0,0,cc.width,cc.height);
+    traces2.forEach((t,i)=>{
+      const totalSegs=t.segs.length;
+      const drawn=Math.floor(t.prog*totalSegs);
+      for(let s=0;s<drawn;s++){
+        const seg=t.segs[s];
+        cx2.strokeStyle=`rgba(0,201,167,${t.alpha})`;
+        cx2.lineWidth=1.5;
+        cx2.beginPath(); cx2.moveTo(seg.x1,seg.y1); cx2.lineTo(seg.x2,seg.y2); cx2.stroke();
+        cx2.fillStyle=`rgba(0,240,204,${t.alpha})`;
+        cx2.beginPath(); cx2.arc(seg.x2,seg.y2,3,0,Math.PI*2); cx2.fill();
+      }
+      t.prog+=t.speed;
+      if(t.prog>1.3) t.alpha-=0.02;
+      if(t.alpha<=0) traces2.splice(i,1);
+    });
+    requestAnimationFrame(drawCircuit);
+  }
+  drawCircuit();
+}
+
+/* 13. SMOOTH PARALLAX ON HERO TEXT */
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  const heroContent=document.querySelector('.hero h1');
+  const heroSub=document.querySelector('.hero-sub');
+  if(heroContent) heroContent.style.transform=`translateY(${y*0.18}px)`;
+  if(heroSub) heroSub.style.transform=`translateY(${y*0.12}px)`;
+});
+
+/* 14. NAV BACKGROUND INTENSIFY ON SCROLL */
+const nav=document.querySelector('nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>60){ nav.style.background='rgba(13,20,20,0.97)'; nav.style.borderBottomColor='rgba(0,201,167,0.15)'; }
+  else{ nav.style.background='rgba(13,20,20,0.85)'; nav.style.borderBottomColor='#1f2f2f'; }
+});
+</script>
+
+</body>
+</html>
